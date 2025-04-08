@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-// ------------ Book ------------
+// Book
 void Book::setBookDetails(string t, string a, string i, bool avail, string date) {
     title = t;
     author = a;
@@ -12,13 +12,11 @@ void Book::setBookDetails(string t, string a, string i, bool avail, string date)
 }
 
 void Book::displayBookDetails() {
-    cout << "-----------------------------" << endl;
     cout << "Title: " << title << endl;
     cout << "Author: " << author << endl;
     cout << "ISBN: " << ISBN << endl;
     cout << "Available: " << (availability ? "Yes" : "No") << endl;
     cout << "Date Added: " << dateAdded << endl;
-    cout << "-----------------------------" << endl;
 }
 
 void Book::borrowBook() {
@@ -39,7 +37,7 @@ void Book::sortBookData() {
     cout << "Sorting logic would go here (e.g., sorting array by ISBN)." << endl;
 }
 
-// ----------- EBook -----------
+// EBook
 void EBook::setEBookDetails(string t, string a, string i, bool avail, string date,
                             string format, double size) {
     setBookDetails(t, a, i, avail, date);
@@ -52,7 +50,7 @@ void EBook::downloadBook() {
          << " format (" << fileSizeMB << "MB)." << endl;
 }
 
-// ------- PrintedBook ---------
+// PrintedBook 
 void PrintedBook::setPrintedBookDetails(string t, string a, string i, bool avail, string date,
                                         int pages, string location) {
     setBookDetails(t, a, i, avail, date);
