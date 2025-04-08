@@ -4,9 +4,7 @@
 #include <string>
 using namespace std;
 
-// -------------------
 // Base Class: Book
-// -------------------
 class Book {
 protected:
     string title;
@@ -23,9 +21,7 @@ public:
     void sortBookData();
 };
 
-// -------------------
 // Child Class: EBook
-// -------------------
 class EBook : public Book {
 private:
     string fileFormat;
@@ -37,9 +33,7 @@ public:
     void downloadBook();
 };
 
-// -----------------------
 // Child Class: PrintedBook
-// -----------------------
 class PrintedBook : public Book {
 private:
     int numberOfPages;
