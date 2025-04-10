@@ -1,8 +1,8 @@
-Community Library System
-This project is a C++ console application for a Community Library System. It allows the management of books, including EBooks and Printed Books, and supports borrowing and returning functionality.
+Library System:
+This project is a C++ console application for a Community Library System. It allows the management of books, including EBooks and Printed Books, and supports borrowing and returning functionality. 
 
 Features
-Object-Oriented Programming (OOP) using inheritance.
+Object-Oriented Programming (OOP) using inheritance. 
 Book as the parent class with shared attributes and methods.
 EBook and PrintedBook as child classes with additional attributes/methods.
 Borrowing and returning books with availability flag checking.
