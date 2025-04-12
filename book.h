@@ -4,44 +4,51 @@
 #include <string>
 using namespace std;
 
-// Base Class: Book
+// Base class
 class Book {
-protected:
+private:  // Core book details
     string title;
     string author;
     string ISBN;
-    bool availability;
+    bool availability;  // Availability flag: true = available, false = borrowed
     string dateAdded;
 
-public:
+public: // Set common book details
     void setBookDetails(string t, string a, string i, bool avail, string date);
-    void displayBookDetails();
-    void borrowBook();
-    void returnBook();
-    void sortBookData();
+    void displayBookDetails(); // Display book details
+    void borrowBook();   // Borrow the book (sets availability to false)
+    void returnBook();  // Return the book (sets availability to true)
+    string getISBN();   // Get the ISBN (used for searching/sorting)
+    bool isAvailable();  // Check if book is available
+    static void sortBookData(Book books[], int size); // Static method to sort array of books by ISBN using insertion sort
 };
 
-// Child Class: EBook
+// Derived Class: EBook
+// EBook class
 class EBook : public Book {
 private:
-    string fileFormat;
-    double fileSizeMB;
+    string fileFormat;  // e.g., PDF, EPUB
+    double fileSizeMB;  // File size in megabytes
+    string licenseEndDate;
 
-public:
+public:  // Set details specific to an EBook
     void setEBookDetails(string t, string a, string i, bool avail, string date,
-                         string format, double size);
-    void downloadBook();
+                         string format, double size, string licenseDate);
+    void displayEBookDetails(); // Display details specific to an EBook
+    void downloadBook(); 
 };
 
-// Child Class: PrintedBook
+// Derived Class: PrintedBook
+// PrintedBook class
 class PrintedBook : public Book {
 private:
-    int numberOfPages;
-    string shelfLocation;
+    int numberOfPages; // Total pages
+    string shelfNumber; // Physical shelf location
 
-public:
+public: // Set details specific to a PrintedBook
     void setPrintedBookDetails(string t, string a, string i, bool avail, string date,
-                                int pages, string location);
+                               int pages, string shelf);
+    void displayPrintedBookDetails();
     void reserveShelfSpace();
 };
 
