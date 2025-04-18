@@ -1,9 +1,11 @@
+// book.cpp (Implementation file)
+
 #include <iostream>
 #include "book.h"
 using namespace std;
 
-// Base class - Book Class Methods 
-// Sets the details of the Book
+// Book (base class)
+// Set base book details (used by all book types)
 void Book::setBookDetails(string t, string a, string i, bool avail, string date) {
     title = t;
     author = a;
@@ -12,15 +14,42 @@ void Book::setBookDetails(string t, string a, string i, bool avail, string date)
     dateAdded = date;
 }
 
-// Displays book details (shared by EBook and PrintedBook)
+// Getter methods
+string Book::getTitle() const {
+    return title;
+}
+
+string Book::getAuthor() const {
+    return author;
+}
+
+string Book::getISBN() const {
+    return ISBN;
+}
+
+string Book::getDateAdded() const {
+    return dateAdded;
+}
+
+bool Book::isAvailable() const {
+    return availability;
+}
+
+// Setter for availability (useful for constructors/copying)
+void Book::setAvailability(bool avail) {
+    availability = avail;
+}
+
+// Displays basic book details
 void Book::displayBookDetails() {
-    cout << "\nTitle: " << title << "\nAuthor: " << author
+    cout << "\nTitle: " << title
+         << "\nAuthor: " << author
          << "\nISBN: " << ISBN
          << "\nAvailable: " << (availability ? "Yes" : "No")
          << "\nDate Added: " << dateAdded << endl;
 }
 
-// Borrows the book if available
+// Borrow logic with availability check
 void Book::borrowBook() {
     if (availability) {
         availability = false;
@@ -30,28 +59,21 @@ void Book::borrowBook() {
     }
 }
 
-// Returns the book (sets availability to true)
+// Return logic (just marks it available again)
 void Book::returnBook() {
     availability = true;
     cout << "Book returned successfully." << endl;
 }
 
-// Getter for ISBN 
-string Book::getISBN() {
-    return ISBN;
-}
-
-// Checks if book is available
-bool Book::isAvailable() {
-    return availability;
-}
-
-// Sorts an array of Book objects using Insertion Sort based on ISBN
-void Book::sortBookData(Book books[], int size) {
+// Insertion sort for array of Book pointers (by title)
+void Book::sortBooksByTitle(Book* books[], int size, bool ascending) {
     for (int i = 1; i < size; ++i) {
-        Book key = books[i];
+        Book* key = books[i];
         int j = i - 1;
-        while (j >= 0 && books[j].getISBN() > key.getISBN()) { // Shift books that have greater ISBN than key to one position ahead
+
+        // Compare based on ascending or descending flag
+        while (j >= 0 &&
+            (ascending ? (books[j]->getTitle() > key->getTitle()) : (books[j]->getTitle() < key->getTitle()))) {
             books[j + 1] = books[j];
             j--;
         }
@@ -59,44 +81,51 @@ void Book::sortBookData(Book books[], int size) {
     }
 }
 
-// EBook class Methods
-// Sets the details of an EBook
-void EBook::setEBookDetails(string t, string a, string i, bool avail, string date,
-                            string format, double size, string licenseDate) {
-    setBookDetails(t, a, i, avail, date); // Call base class method
+// PrintedBook
+// Copy constructor to ensure deep copy of printed book info
+PrintedBook::PrintedBook(const PrintedBook& pb) {
+    setPrintedBookDetails(
+        pb.getTitle(), pb.getAuthor(), pb.getISBN(), pb.isAvailable(), pb.getDateAdded(),
+        pb.numberOfPages, pb.shelfNumber
+    );
+}
+
+// Sets printed book-specific fields + common book fields
+void PrintedBook::setPrintedBookDetails(string t, string a, string i, bool avail, string date, int pages, string shelf) {
+    setBookDetails(t, a, i, avail, date);
+    numberOfPages = pages;
+    shelfNumber = shelf;
+}
+
+// Displays printed book info (with [Printed Book] label)
+void PrintedBook::displayBookDetails() {
+    cout << "\n[Printed Book]";
+    Book::displayBookDetails();
+    cout << "Pages: " << numberOfPages << "\nShelf: " << shelfNumber << endl;
+}
+
+// EBook
+// Copy constructor to ensure deep copy of ebook info
+EBook::EBook(const EBook& eb) {
+    setEBookDetails(
+        eb.getTitle(), eb.getAuthor(), eb.getISBN(), eb.isAvailable(), eb.getDateAdded(),
+        eb.fileFormat, eb.fileSizeMB, eb.licenseEndDate
+    );
+}
+
+// Sets ebook-specific fields + common book fields
+void EBook::setEBookDetails(string t, string a, string i, bool avail, string date, string format, double size, string licenseDate) {
+    setBookDetails(t, a, i, avail, date);
     fileFormat = format;
     fileSizeMB = size;
     licenseEndDate = licenseDate;
 }
 
-// Displays EBook-specific details
-void EBook::displayEBookDetails() {
-    displayBookDetails();  // Call base class method
-    cout << "File Format: " << fileFormat
-         << "\nFile Size: " << fileSizeMB << "MB"
+// Displays eBook info (with [E-Book] label)
+void EBook::displayBookDetails() {
+    cout << "\n[E-Book]";
+    Book::displayBookDetails();   // Call base version for common info
+    cout << "Format: " << fileFormat << "\nSize: " << fileSizeMB << "MB"
          << "\nLicense End Date: " << licenseEndDate << endl;
 }
 
-void EBook::downloadBook() {
-    cout << "Downloading the book in " << fileFormat << " format (" << fileSizeMB << "MB)..." << endl;
-}
-
-// PrintedBook class
-// Sets the details of a PrintedBook
-void PrintedBook::setPrintedBookDetails(string t, string a, string i, bool avail, string date,
-                                        int pages, string shelf) {
-    setBookDetails(t, a, i, avail, date); // Call base class method
-    numberOfPages = pages;
-    shelfNumber = shelf;
-}
-
-// Displays PrintedBook-specific details
-void PrintedBook::displayPrintedBookDetails() {
-    displayBookDetails(); // Call base class method
-    cout << "Number of Pages: " << numberOfPages
-         << "\nShelf Number: " << shelfNumber << endl;
-}
-
-void PrintedBook::reserveShelfSpace() {
-    cout << "Shelf " << shelfNumber << " reserved for this printed book." << endl;
-}
