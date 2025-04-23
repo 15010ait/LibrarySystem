@@ -26,11 +26,10 @@ A main menu lets users:
 Display all books
 Borrow a book (based on ISBN)
 Return a book (based on ISBN)
-Sort books by title (A–Z or Z–A)
+Add a new book
 Exit the application
 Borrowing: Only possible if availability == true
 Returning: Resets availability to true
-Sorting: Implemented via Insertion Sort using virtual method calls to support polymorphic arrays
 
 Class Overview
 Book (Base Class)
@@ -56,14 +55,12 @@ Borrowing a printed book:
 Input ISBN when prompted and check availability.
 Returning an ebook:
 Enter the ISBN to mark it as available again.
-Sorting:
-Sort alphabetically and redisplay book list.
+Adding a new book: The user inputs the book information.
 
 Concepts Demonstrated
 Inheritance: PrintedBook and EBook inherit from Book.
 Polymorphism: Base class pointer array holds derived class objects.
 Encapsulation: Attributes are private, accessed via methods.
-Sorting Algorithm: Simple insertion sort by title.
 
 Notes
 The borrowBook() method checks the availability flag and displays a message if the book is already borrowed.
@@ -71,4 +68,4 @@ Demonstrates OOP best practices like:
 Inheritance: PrintedBook and EBook extend from Book.
 Encapsulation: Book data is protected through accessors/mutators.
 Polymorphism: Shared interface with distinct child behavior.
-The sortBooksByTitle() method is declared as static in the Book class, enabling sorting of a mixed array of EBooks and PrintedBooks using a common title-based comparator.
+
